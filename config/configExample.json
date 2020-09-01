@@ -1,0 +1,10 @@
+{
+    "token": "set-the-token-here",
+    "prefix": "!",
+
+    "activity": {
+        "name": "What your bot are doing",
+        "type": "WATCHING/LISTENING/STREAMING/PLAYING",
+        "status": "online/idle/offline/dnd"
+    }
+}
