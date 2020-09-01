@@ -14,22 +14,24 @@ module.exports = {
                     "color": '#b55aec',
                     "timestamp": new Date(),
                     "footer": {
-                    "icon_url": `${bot.user.avatarURL({format: 'png'})}`,
-                    "text": "Raiden Mei"
+                        "icon_url": `${bot.user.avatarURL({format: 'png'})}`,
+                        "text": "Raiden Mei"
                     },
                     "image": {
-                    "url": `${message.author.avatarURL({dynamic: true, size: 256})}`
+                        "url": `${message.author.avatarURL({dynamic: true, size: 256})}`
                     },
-                    "fields": [
-                    {
-                        "name": "Nom d'utilisateur :",
-                        "value": `${message.author.tag}`
-                    },
-                    {
-                        "name": "URL de l'avatar :",
-                        "value": `${message.author.avatarURL({dynamic: true})}`
-                    }
-                ]}
+                    "fields": 
+                    [
+                        {
+                            "name": "Nom d'utilisateur :",
+                            "value": `${message.author.tag}`,
+                        },
+                        {
+                            "name": "URL de l'avatar :",
+                            "value": `${message.author.avatarURL({dynamic: true})}`
+                        }
+                    ]
+                }
             })
         }
         else if(nbrArgs >= 2) { // S'il y a 2 ou plusieurs mention on ne fait rien

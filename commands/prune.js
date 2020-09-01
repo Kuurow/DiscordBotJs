@@ -4,10 +4,12 @@ module.exports = {
     execute(message, args) {
         const amount = parseInt(args[0]) + 1; // On converti l'argument en entier, soit ici le nombre de messages à supprimer
 
+        console.log(amount);
+
         if(isNaN(amount)) {
             return message.reply('le nombre saisi est invalide !');
         }
-        else if(amount < 1 || amount >= 100) {
+        else if(amount < 1 || amount > 101) {
             return message.reply('veuillez saisir un nombre compris entre 1 & 100 !')
         }
 
@@ -19,7 +21,7 @@ module.exports = {
         }
 
 
-        message.channel.bulkDelete(amount)
+        message.channel.bulkDelete(amount-1)
             .then(messages => message.channel.send(`**${messages.size - 1}** ${msgToSay}`));
     }
 }
