@@ -4,9 +4,7 @@ module.exports = {
     
     execute(message, args, bot) {
         let nbrArgs = args.length; // On regarde il y a combien d'arguments (mentions)
-        // console.log(`Nombre d'arguments (mentions) : ${nbrArgs}`);
-        // console.log(`Mentions: ${args}`);
-
+       
         if(nbrArgs === 0) { // Si 0 = pas de mention, renvoi de l'avatar de l'utilisateur
             return message.channel.send({
                 "content": `<@!${message.author.id}>`,
@@ -67,12 +65,12 @@ module.exports = {
                         },
                         "fields": [
                             {
-                            "name": "Nom d'utilisateur :",
-                            "value": `${searchedMentionnedMemberAvatar.tag}`
+                                "name": "Nom d'utilisateur :",
+                                "value": `${searchedMentionnedMemberAvatar.tag}`
                             },
                             {
-                            "name": "URL de l'avatar :",
-                            "value": `${searchAvatarURL}`
+                                "name": "URL de l'avatar :",
+                                "value": `${searchAvatarURL}`
                             }
                         ]
                     }
