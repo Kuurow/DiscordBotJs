@@ -7,7 +7,6 @@ module.exports = {
 
         // Only try to join the sender's voice channel if they are in one themselves
         if (message.member.voice.channel) {
-
             const connexion = await message.member.voice.channel.join();
 
             if (connexion) {

@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-
 module.exports = {
     name: 'serverinfo',
     desc: 'Displays server information',

@@ -1,43 +1,45 @@
+const Discord = require('discord.js');
 module.exports = {
     name: 'avatar',
-    description: 'Send an embed message with the profile pic of the user or a mentionned user', 
+    description: 'Send an embed message with the profile picture of the user or a mentionned user', 
     
     execute(message, args, bot) {
         let nbrArgs = args.length; // On regarde il y a combien d'arguments (mentions)
-       
+        const messageAuthorMention = `<@!${message.author.id}>`;
+
         if(nbrArgs === 0) { // Si 0 = pas de mention, renvoi de l'avatar de l'utilisateur
-            return message.channel.send({
-                "content": `<@!${message.author.id}>`,
-                "embed": {
-                    "color": '#b55aec',
-                    "timestamp": new Date(),
-                    "footer": {
-                        "icon_url": `${bot.user.avatarURL({format: 'png'})}`,
-                        "text": "Raiden Mei"
-                    },
-                    "image": {
-                        "url": `${message.author.avatarURL({dynamic: true, size: 256})}`
-                    },
-                    "fields": 
-                    [
-                        {
-                            "name": "Nom d'utilisateur :",
-                            "value": `${message.author.tag}`,
-                        },
-                        {
-                            "name": "URL de l'avatar :",
-                            "value": `${message.author.avatarURL({dynamic: true})}`
-                        }
-                    ]
-                }
-            })
+            
+            let msgAuthorAvatarUrl = message.author.avatarURL();
+
+            if (msgAuthorAvatarUrl.endsWith('.webp')) {
+                msgAuthorAvatarUrl = message.author.avatarURL().replace('webp','png'); // Si webp on converti le lien en png
+                msgAuthorAvatarDiplayed = message.author.avatarURL({size: 256}).replace('webp','png');
+            } 
+            else {
+                msgAuthorAvatarDiplayed = message.author.avatarURL({size: 256});
+            }
+
+            const embed = new Discord.MessageEmbed() 
+                .setColor('#b55aec')
+                .addFields(
+                    { name: 'Nom d\'utilisateur :', value: `${message.author.tag}`},
+                    { name: 'URL de l\'avatar :', value: `${msgAuthorAvatarUrl}`}
+                )
+                .setImage(`${msgAuthorAvatarDiplayed}`)
+                .setTimestamp()
+                .setFooter('Raiden Mei', `${bot.user.avatarURL({format: 'png'})}`);
+
+            return message.channel.send({content: messageAuthorMention, embed: embed});
+
+
         }
         else if(nbrArgs >= 2) { // S'il y a 2 ou plusieurs mention on ne fait rien
             return;
         }
-        else
+        else 
         {
             const searchedMentionnedMemberAvatar = message.mentions.users.first(); // On récupère la mention
+
             if(searchedMentionnedMemberAvatar) {
                 let searchAvatarURL = searchedMentionnedMemberAvatar.avatarURL(); // On récupère l'URL de l'avatar de la personne mentionnée
 
@@ -50,36 +52,21 @@ module.exports = {
                     searchAvatarURL = searchedMentionnedMemberAvatar.avatarURL({dynamic: true}); // Si l'avatar est un gif
                 }
 
-                return message.channel.send({
-                    "content": `<@!${message.author.id}>`,
+                const embed = new Discord.MessageEmbed() 
+                    .setColor('#b55aec')
+                    .addFields(
+                        { name: 'Nom d\'utilisateur :', value: `${searchedMentionnedMemberAvatar.tag}`},
+                        { name: 'URL de l\'avatar :', value: `${searchAvatarURL}`}
+                    )
+                    .setImage(`${searchAvatarURLResized}`)
+                    .setTimestamp()
+                    .setFooter('Raiden Mei', `${bot.user.avatarURL({format: 'png'})}`);
 
-                    "embed": {
-                        "color": '#b55aec',
-                        "timestamp": new Date(),
-                        "footer": {
-                            "icon_url": `${bot.user.avatarURL({format: 'png'})}`,
-                            "text": "Raiden Mei"
-                        },
-                        "image": {
-                            "url": `${searchAvatarURLResized}`
-                        },
-                        "fields": [
-                            {
-                                "name": "Nom d'utilisateur :",
-                                "value": `${searchedMentionnedMemberAvatar.tag}`
-                            },
-                            {
-                                "name": "URL de l'avatar :",
-                                "value": `${searchAvatarURL}`
-                            }
-                        ]
-                    }
-                })
+                return message.channel.send({content: messageAuthorMention, embed: embed});
             }
             else {
                 return message.reply('utilisateur non reconnu, veuillez vérifier si la mention est correcte et réessayez.')
             }
         }
-             
     }
 }
